@@ -86,7 +86,7 @@ cards_db: List[Tuple[str, str, int, List[str]]] = [
         5,
         [
             "barbarians",
-            "minion hoarde",
+            "minion horde",
             "rascals",
         ],
     ),
