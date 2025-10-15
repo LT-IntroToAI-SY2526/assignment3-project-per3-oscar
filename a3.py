@@ -100,38 +100,25 @@ def cards_by_rarity(matches: List[str]) -> List[str]:
             result.append(get_cards(cards))
     return result
 
-def cards_by_type(matches: List[str]) -> List[str]:
+def cards_by_type(matches: List[str]) -> List[List[str]]:
     troop = matches[0]
     result = []
 
     for cards in cards_db:
         if get_type(cards) == troop:
-            result.append(get_cards(cards))
+            for card in get_cards(cards):
+                result.append([card])
     return result
 
-def cards_by_cost(matches: List[str]) -> List[str]:
+def cards_by_cost(matches: List[str]) -> List[List[str]]:
     troop = int(matches[0])
     result = []
 
     for cards in cards_db:
         if get_cost(cards) == troop:
-            result.append(get_cards(cards))
+            for card in get_cards(cards):
+                result.append([card])
     return result
-
-def average_elixir_cost(matches: List[str]) -> List[str]:
-    result = []
-
-    for troop in matches:
-        for cards in cards_db:
-            if troop in get_cards(cards):
-                result.append(get_cost(cards))
-                break
-
-    if not result:
-        return ["0"]
-
-    avg = sum(result) / len(result)
-    return [str(avg)]
 
 ######################################################################3
 
@@ -147,7 +134,6 @@ pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("what cards are _"), cards_by_rarity),
     (str.split("what cards are the _ type"), cards_by_type),
     (str.split("what cards cost _ elixir"), cards_by_cost),
-    (str.split("What is the average elixir cost for cards _"), average_elixir_cost)
 ]
 
 #####################################################################3
@@ -168,11 +154,11 @@ def search_pa_list(src: List[str]) -> List[str]:
 if __name__ == "__main__":
 
     assert rarity_by_type(match(["what", "rarity", "does", "the", "_", "type", "have"], ["what", "rarity", "does", "the", "building", "type", "have"])) == [
-        "common", "rare", "rare", "rare", "rare", "rare", "rare", "rare", "rare", "rare"
+        "common", "common", "rare", "rare", "rare", "rare", "rare", "epic", "epic"
     ], "test rarity_by_type failed"
 
     assert rarity_by_cost(match(["what", "rarity", "costs", "_", "elixir"], ["what", "rarity", "costs", "6", "elixir"])) == [
-        "rare", "rare", "epic", "epic", "legendary", "legendary", "legendary"
+        "common", "rare", "rare", "epic", "epic", "epic", "legendary", "champion"
     ], "test rarity_by_cost failed"
 
     assert rarity_by_cards(match(["what", "rarity", "does", "the", "card", "%", "have"], ["what", "rarity", "does", "the", "card", "skeletons", "have"])) == [
@@ -188,43 +174,40 @@ if __name__ == "__main__":
     ], "test type_by_cards failed"
 
     assert cost_by_rarity(match(["how", "much", "does", "a", "_", "card", "cost"], ["how", "much", "does", "a", "epic", "card", "cost"])) == [
-        4, 4, 5, 6, 7, 7, 8
+        2, 2, 3, 3, 4, 4, 4, 5, 6, 6, 6, 7, 8
     ], "test cost_by_rarity failed"
 
-    assert cost_by_type(match(["how", "much", "does", "a", "_", "type", "card", "cost"], ["how", "much", "does", "a", "champion", "type", "card", "cost"])) == [
-        3, 4, 4, 5
+    assert cost_by_type(match(["how", "much", "does", "a", "_", "type", "card", "cost"], ["how", "much", "does", "a", "building", "type", "card", "cost"])) == [
+        3, 4, 3, 4, 5, 6, 7, 4, 6
     ], "test cost_by_type failed"
 
     assert cost_by_cards(match(["how", "much", "does", "%", "cost"], ["how", "much", "does", "skeletons", "cost"])) == [
         1
     ], "test cost_by_cards failed"
 
-    assert cards_by_rarity(match(["what", "cards", "are", "_"], ["what", "cards", "are", "rare"])) == [
-        "royal giant", "royal recruits", "barbarians", "knight", "archers",
-        "minions", "firecracker", "royal delivery", "goblin giant", "musketeer",
-        "mini pekka", "hog rider", "battle ram", "zappies", "flying machine",
-        "battle healer", "goblin demolisher", "wizard", "royal hogs",
-        "three musketeers", "cannon cart", "electro dragon", "giant skeleton",
-        "electro wizard", "night witch", "magic archer", "mother witch",
-        "phoenix", "goblin machine", "ram rider", "sparky", "spirit empress"
+    assert cards_by_rarity(match(["what", "cards", "are", "_"], ["what", "cards", "are", "champion"])) == [
+        ["little prince"],
+        ["mighty miner", "skeleton king", "golden knight"],
+        ["archer queen", "monk", "goblinstein"],
+        ["boss bandit"]
     ], "test cards_by_rarity failed"
 
     assert cards_by_type(match(["what", "cards", "are", "the", "_", "type"], ["what", "cards", "are", "the", "spell", "type"])) == [
-        "zap", "giant snowball", "rage", "barbarian barrel", "goblin curse", "log",
-        "fireball", "rocket", "poison", "arrows", "freeze", "clone", "earthquake",
-        "tornado", "lightning", "heal", "barbarian hut", "furnace", "goblin hut"
+        ["zap"], ["giant snowball"],
+        ["arrows"], ["royal delivery"],
+        ["earthquake"],
+        ["fireball"],
+        ["rocket"],
+        ["rage"], ["barbarian barrel"], ["goblin curse"],
+        ["goblin barrel"], ["tornado"], ["clone"], ["void"], ["vines"],
+        ["freeze"], ["poison"],
+        ["lightning"],
+        ["log"],
+        ["graveyard"],
     ], "test cards_by_type failed"
 
     assert cards_by_cost(match(["what", "cards", "cost", "_", "elixir"], ["what", "cards", "cost", "1", "elixir"])) == [
-        "ice spirit", "skeletons", "electro spirit", "fire spirit", "goblins", "bomber", "spear goblins", "bats", "zap", "giant snowball"
+        ["ice spirit"], ["skeletons"], ["electro spirit"], ["fire spirit"], ["heal spirit"],
     ], "test cards_by_cost failed"
-
-    assert average_elixir_cost(match(["What", "is", "the", "average", "elixir", "cost", "for", "cards", "_"], ["What", "is", "the", "average", "elixir", "cost", "for", "cards", "skeletons", "ice spirit"])) == [
-        "1.0"
-    ], "test average_elixir_cost failed"
-
-print("All tests passed!")
-
-
 
 print("All tests passed!")

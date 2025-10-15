@@ -264,7 +264,7 @@ cards_db: List[Tuple[str, str, int, List[str]]] = [
     ),
     (
         "epic",
-        "spells",
+        "spell",
         3,
         [
             "goblin barrel",
