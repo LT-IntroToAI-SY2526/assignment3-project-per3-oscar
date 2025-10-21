@@ -151,6 +151,24 @@ def search_pa_list(src: List[str]) -> List[str]:
             
     return ["I don't understand"]
 
+def query_loop() -> None:
+    """The simple query loop. The try/except structure is to catch Ctrl-C or Ctrl-D
+    characters and exit gracefully.
+    """
+    print("Welcome to the Album database!\n")
+    while True:
+        try:
+            print()
+            query = input("Your query? ").replace("?", "").lower().split()
+            answers = search_pa_list(query)
+            for ans in answers:
+                print(ans)
+
+        except (KeyboardInterrupt, EOFError):
+            break
+
+    print("\nSo long!\n")
+
 if __name__ == "__main__":
 
     assert rarity_by_type(match(["what", "rarity", "does", "the", "_", "type", "have"], ["what", "rarity", "does", "the", "building", "type", "have"])) == [
@@ -211,3 +229,6 @@ if __name__ == "__main__":
     ], "test cards_by_cost failed"
 
 print("All tests passed!")
+
+
+query_loop
