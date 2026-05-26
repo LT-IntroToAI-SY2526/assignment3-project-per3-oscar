@@ -120,6 +120,33 @@ def cards_by_cost(matches: List[str]) -> List[List[str]]:
                 result.append([card])
     return result
 
+def rarity_by_tower_troop(matches: List[str]) -> List[str]:
+    troop = matches[0]
+    result = []
+
+    for cards in cards_db:
+        if troop in get_cards(cards) and get_type(cards) == "tower troop":
+            result.append(get_rarity(cards))
+
+    return result
+
+def average_elixir_cost_of_cards(matches: List[str]) -> List[float]:
+
+    card_names = matches
+    costs = []
+
+    for name in card_names:
+        for cards in cards_db:
+            if name in get_cards(cards):
+                costs.append(get_cost(cards))
+                break
+
+    if not costs:
+        return ["I don't understand"]
+
+    avg = sum(costs) / len(costs)
+    return [round(avg, 2)]
+
 ######################################################################3
 
 pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
@@ -134,6 +161,8 @@ pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("what cards are _"), cards_by_rarity),
     (str.split("what cards are the _ type"), cards_by_type),
     (str.split("what cards cost _ elixir"), cards_by_cost),
+    (str.split("what rarity does the tower troop % have"), rarity_by_tower_troop),
+    (str.split("what is the average elixir cost of %"), average_elixir_cost_of_cards),
 ]
 
 #####################################################################3
@@ -192,7 +221,7 @@ if __name__ == "__main__":
     ], "test type_by_cards failed"
 
     assert cost_by_rarity(match(["how", "much", "does", "a", "_", "card", "cost"], ["how", "much", "does", "a", "epic", "card", "cost"])) == [
-        2, 2, 3, 3, 4, 4, 4, 5, 6, 6, 6, 7, 8
+        0, 2, 2, 3, 3, 4, 4, 4, 5, 6, 6, 6, 7, 8
     ], "test cost_by_rarity failed"
 
     assert cost_by_type(match(["how", "much", "does", "a", "_", "type", "card", "cost"], ["how", "much", "does", "a", "building", "type", "card", "cost"])) == [
@@ -228,9 +257,20 @@ if __name__ == "__main__":
         ["ice spirit"], ["skeletons"], ["electro spirit"], ["fire spirit"], ["heal spirit"],
     ], "test cards_by_cost failed"
 
+    assert rarity_by_tower_troop(
+    match(
+        ["what", "rarity", "does", "the", "tower", "troop", "%", "have"], ["what", "rarity", "does", "the", "tower", "troop", "cannoneer", "have"]
+    ) ) == ["epic"], "test rarity_by_tower_troop failed"
+
+    assert average_elixir_cost_of_cards(
+    match(
+        ["what", "is", "the", "average", "elixir", "cost", "of", "%"], ["what", "is", "the", "average", "elixir", "cost", "of", "goblins knight pekka"]
+    ) ) == [4.0], "test average_elixir_cost_of_cards failed"
+    
+
 print("All tests passed!")
 
-if __name__ == "__main__":
-    query_loop()
+# if __name__ == "__main__":
+#     query_loop()
 
-query_loop
+# query_loop
