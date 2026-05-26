@@ -3,10 +3,18 @@ from typing import List, Tuple
 cards_db: List[Tuple[str, str, int, List[str]]] = [
     (
         "common", #rarity
-        "troop", #type
-        1, #elixir count
+        "tower troop", #type
+        0, #elixir count
         [
-            "ice spirit", #cards
+            "tower princess", #cards
+        ],
+    ),
+    (
+        "common",
+        "troop", 
+        1,
+        [
+            "ice spirit",
             "skeletons",
             "electro spirit",
             "fire spirit",
@@ -236,6 +244,14 @@ cards_db: List[Tuple[str, str, int, List[str]]] = [
         ],
     ),
     (
+        "epic", 
+        "tower troop", 
+        0, 
+        [
+            "cannoneer",
+        ],
+    ),
+    (
         "epic",
         "troop",
         2,
@@ -356,6 +372,22 @@ cards_db: List[Tuple[str, str, int, List[str]]] = [
         8,
         [
             "golem",
+        ],
+    ),
+    (
+        "legendary", 
+        "tower troop", 
+        0, 
+        [
+            "dagger duchess",
+        ],
+    ),
+     (
+        "legendary", 
+        "tower troop", 
+        0, 
+        [
+            "royal cheff",
         ],
     ),
     (
