@@ -374,6 +374,11 @@ cards_db: List[Tuple[str, str, int, List[str]]] = [
             "golem",
         ],
     ),
+    #
+    #
+    # EVERYTHING BELOW IS NEW!!!!!!!!
+    #
+    #
     (
         "legendary", 
         "tower troop", 
