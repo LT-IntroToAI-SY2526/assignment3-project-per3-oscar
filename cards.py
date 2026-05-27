@@ -495,5 +495,122 @@ cards_db: List[Tuple[str, str, int, List[str]]] = [
         [
             "boss bandit",
         ],
+    ),
+    (
+        "evolution",
+        "troop",
+        1,
+        [
+            "skeletons",
+            "ice spirit",
+        ],
+    ),
+    (
+        "evolution",
+        "troop",
+        2,
+        [
+            "bomber",
+            "bats",
+            "wall breakers",
+        ],
+    ),
+    (
+        "evolution",
+        "spell",
+        2,
+        [
+            "zap",
+            "giant snowball",
+        ],
+    ),
+    (
+        "evolution",
+        "troop",
+        3,
+        [
+            "knight",
+            "archers",
+            "skeleton army",
+            "skeleton barrel",
+            "dart goblin",
+            "firecracker",
+            "royal ghost",
+        ],
+    ),
+    (
+        "evolution",
+        "spell",
+        3,
+        [
+            "goblin barrel",
+        ],
+    ),
+    (
+        "evolution",
+        "building",
+        3,
+        [
+            "cannon",
+        ],
+    ),
+    (
+        "evolution",
+        "troop",
+        4,
+        [
+            "musketeer",
+            "valkyrie",
+            "battle ram",
+            "baby dragon",
+            "furnace",
+            "hunter",
+            "inferno dragon",
+            "lumberjack",
+        ],
+    ),
+    (
+        "evolution",
+        "building",
+        4,
+        [
+            "mortar",
+            "tesla",
+            "goblin drill",
+        ],
+    ),
+    (
+        "evolution",
+        "troop",
+        5,
+        [
+            "barbarians",
+            "wizard",
+            "witch",
+            "royal hogs",
+            "minion horde",
+            "electro dragon",
+            "executioner",
+        ],
+    ),
+    (
+        "evolution",
+        "troop",
+        6,
+        [
+            "royal giant",
+            "goblin giant",
+        ],
+    ),
+    (
+        "evolution",
+        "troop",
+        6,
+        [
+            "pekka",
+            "royal recruits",
+            "mega knight",
+        ],
     )
+    
 ]

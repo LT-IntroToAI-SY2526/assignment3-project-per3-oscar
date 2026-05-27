@@ -130,23 +130,6 @@ def rarity_by_tower_troop(matches: List[str]) -> List[str]:
 
     return result
 
-def average_elixir_cost_of_cards(matches: List[str]) -> List[float]:
-
-    card_names = matches
-    costs = []
-
-    for name in card_names:
-        for cards in cards_db:
-            if name in get_cards(cards):
-                costs.append(get_cost(cards))
-                break
-
-    if not costs:
-        return ["I don't understand"]
-
-    avg = sum(costs) / len(costs)
-    return [round(avg, 2)]
-
 ######################################################################3
 
 pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
@@ -162,7 +145,6 @@ pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("what cards are the _ type"), cards_by_type),
     (str.split("what cards cost _ elixir"), cards_by_cost),
     (str.split("what rarity does the tower troop % have"), rarity_by_tower_troop),
-    (str.split("what is the average elixir cost of %"), average_elixir_cost_of_cards),
 ]
 
 #####################################################################3
@@ -261,12 +243,6 @@ if __name__ == "__main__":
     match(
         ["what", "rarity", "does", "the", "tower", "troop", "%", "have"], ["what", "rarity", "does", "the", "tower", "troop", "cannoneer", "have"]
     ) ) == ["epic"], "test rarity_by_tower_troop failed"
-
-    assert average_elixir_cost_of_cards(
-    match(
-        ["what", "is", "the", "average", "elixir", "cost", "of", "%"], ["what", "is", "the", "average", "elixir", "cost", "of", "goblins knight pekka"]
-    ) ) == [4.0], "test average_elixir_cost_of_cards failed"
-    
 
 print("All tests passed!")
 
