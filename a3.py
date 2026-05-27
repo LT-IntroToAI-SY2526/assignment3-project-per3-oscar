@@ -265,7 +265,7 @@ if __name__ == "__main__":
 
 print("All tests passed!")
 
-# if __name__ == "__main__":
-#     query_loop()
+if __name__ == "__main__":
+    query_loop()
 
-# query_loop
+query_loop

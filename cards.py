@@ -392,7 +392,7 @@ cards_db: List[Tuple[str, str, int, List[str]]] = [
         "tower troop", 
         0, 
         [
-            "royal cheff",
+            "royal chef",
         ],
     ),
     (
