@@ -24,8 +24,9 @@ def rarity_by_type(matches: List[str]) -> List[str]:
     result = []
 
     for cards in cards_db:
-        if get_type(cards) == troop:
+        if get_type(cards) == troop and get_rarity(cards) != "evolution": #had to update to ignore evo
             result.append(get_rarity(cards))
+
     return result
 
 def rarity_by_cost(matches: List[str]) -> List[str]:
@@ -33,18 +34,20 @@ def rarity_by_cost(matches: List[str]) -> List[str]:
     result = []
 
     for cards in cards_db:
-        if get_cost(cards) == troop:
+        if get_cost(cards) == troop and get_rarity(cards) != "evolution": #had to update to ignore evo
             result.append(get_rarity(cards))
     return result
+
 
 def rarity_by_cards(matches: List[str]) -> List[str]:
     troop = matches[0]
     result = []
 
     for cards in cards_db:
-        if troop in get_cards(cards):
+        if troop in get_cards(cards) and get_rarity(cards) != "evolution": #had to update to ignore evo
             result.append(get_rarity(cards))
     return result
+
 
 def type_by_rarity(matches: List[str]) -> List[str]:
     troop = matches[0]
@@ -60,7 +63,7 @@ def type_by_cards(matches: List[str]) -> List[str]:
     result = []
 
     for cards in cards_db:
-        if troop in get_cards(cards):
+        if troop in get_cards(cards) and get_rarity(cards) != "evolution": #had to update to ignore evo
             result.append(get_type(cards))
     return result
 
@@ -69,7 +72,7 @@ def cost_by_rarity(matches: List[str]) -> List[int]:
     result = []
 
     for cards in cards_db:
-        if get_rarity(cards) == troop:
+        if get_rarity(cards) == troop and troop != "evolution": #had to update to ignore evo
             result.append(get_cost(cards))
     return result
 
@@ -78,7 +81,7 @@ def cost_by_type(matches: List[str]) -> List[int]:
     result = []
 
     for cards in cards_db:
-        if get_type(cards) == troop:
+        if get_type(cards) == troop and get_rarity(cards) != "evolution": #had to update to ignore evo
             result.append(get_cost(cards))
     return result
 
@@ -87,7 +90,7 @@ def cost_by_cards(matches: List[str]) -> List[int]:
     result = []
 
     for cards in cards_db:
-        if troop in get_cards(cards):
+        if troop in get_cards(cards) and get_rarity(cards) != "evolution": #had to update to ignore evo
             result.append(get_cost(cards))
     return result
 
@@ -96,7 +99,7 @@ def cards_by_rarity(matches: List[str]) -> List[str]:
     result = []
 
     for cards in cards_db:
-        if get_rarity(cards) == troop:
+        if get_rarity(cards) == troop and troop != "evolution": #had to update to ignore evo
             result.append(get_cards(cards))
     return result
 
@@ -105,7 +108,7 @@ def cards_by_type(matches: List[str]) -> List[List[str]]:
     result = []
 
     for cards in cards_db:
-        if get_type(cards) == troop:
+        if get_type(cards) == troop and get_rarity(cards) != "evolution": #had to update to ignore evo
             for card in get_cards(cards):
                 result.append([card])
     return result
@@ -115,12 +118,16 @@ def cards_by_cost(matches: List[str]) -> List[List[str]]:
     result = []
 
     for cards in cards_db:
-        if get_cost(cards) == troop:
+        if get_cost(cards) == troop and get_rarity(cards) != "evolution": #had to update to ignore evo
             for card in get_cards(cards):
                 result.append([card])
     return result
 
-def rarity_by_tower_troop(matches: List[str]) -> List[str]:
+#
+# BOTTOM TWO ARE NEW FUNCTIONS
+#
+
+def rarity_by_tower_troop(matches: List[str]) -> List[str]: 
     troop = matches[0]
     result = []
 
@@ -128,6 +135,14 @@ def rarity_by_tower_troop(matches: List[str]) -> List[str]:
         if troop in get_cards(cards) and get_type(cards) == "tower troop":
             result.append(get_rarity(cards))
 
+    return result
+
+def cards_with_evo(matches: List[str]) -> List[List[str]]:
+    result = []
+    for cards in cards_db:
+        if get_rarity(cards) == "evolution":
+            for card in get_cards(cards):
+                result.append([card])
     return result
 
 ######################################################################3
@@ -144,7 +159,11 @@ pa_list: List[Tuple[List[str], Callable[[List[str]], List[Any]]]] = [
     (str.split("what cards are _"), cards_by_rarity),
     (str.split("what cards are the _ type"), cards_by_type),
     (str.split("what cards cost _ elixir"), cards_by_cost),
+    #
+    # BOTTOM TWO ARE NEW SPLITS
+    #
     (str.split("what rarity does the tower troop % have"), rarity_by_tower_troop),
+    (str.split("what cards have an evolution"), cards_with_evo),
 ]
 
 #####################################################################3
